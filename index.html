@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SoilSense | Crop Advisor</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="brand">🌱 SoilSense</div>
+        <p>Soil Health & Crop Recommendation Advisor</p>
+    </header>
+
+    <main>
+        <section class="intro">
+            <span class="eyebrow">SMART AGRICULTURE</span>
+            <h1>Make better decisions for your soil.</h1>
+            <p>
+                Enter your soil and climate readings to explore
+                crops that match the configured growing conditions.
+            </p>
+        </section>
+
+        <section class="panel">
+            <div class="progress-track">
+                <div id="progressBar"></div>
+            </div>
+
+            <p id="stepLabel">Step 1 of 3 · Soil nutrients</p>
+
+            <form id="soilForm">
+                <fieldset class="step active">
+                    <h2>Soil nutrients</h2>
+                    <p class="muted">
+                        Enter values from your soil test.
+                        Use consistent units for N, P and K.
+                    </p>
+
+                    <div class="fields">
+                        <label>Nitrogen (N)
+                            <input type="number" name="N"
+                                   min="0" step="any" required>
+                        </label>
+
+                        <label>Phosphorus (P)
+                            <input type="number" name="P"
+                                   min="0" step="any" required>
+                        </label>
+
+                        <label>Potassium (K)
+                            <input type="number" name="K"
+                                   min="0" step="any" required>
+                        </label>
+
+                        <label>Soil pH
+                            <input type="number" name="ph"
+                                   min="0" max="14"
+                                   step="any" required>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="step">
+                    <h2>Climate conditions</h2>
+                    <p class="muted">
+                        Enter representative local or seasonal readings.
+                    </p>
+
+                    <div class="fields">
+                        <label>Temperature (°C)
+                            <input type="number" name="temperature"
+                                   min="-10" max="65"
+                                   step="any" required>
+                        </label>
+
+                        <label>Humidity (%)
+                            <input type="number" name="humidity"
+                                   min="0" max="100"
+                                   step="any" required>
+                        </label>
+
+                        <label>Seasonal rainfall (mm)
+                            <input type="number" name="rainfall"
+                                   min="0" step="any" required>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <fieldset class="step">
+                    <h2>Review your inputs</h2>
+                    <p class="muted">
+                        Verify the values before generating your report.
+                    </p>
+                    <div id="review" class="review"></div>
+                </fieldset>
+
+                <p id="error" role="alert"></p>
+
+                <div class="actions">
+                    <button type="button" id="backBtn"
+                            class="secondary" hidden>
+                        Back
+                    </button>
+
+                    <button type="button" id="nextBtn">
+                        Continue
+                    </button>
+
+                    <button type="submit" id="analyzeBtn" hidden>
+                        Analyze soil
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section id="results" hidden>
+            <div class="result-heading">
+                <div>
+                    <span class="eyebrow">YOUR SOIL REPORT</span>
+                    <h2>Recommendation dashboard</h2>
+                </div>
+
+                <button type="button" class="secondary"
+                        onclick="window.print()">
+                    Print / Save PDF
+                </button>
+            </div>
+
+            <div class="summary-grid">
+                <article class="metric">
+                    <span>Top crop match</span>
+                    <strong id="topCrop">—</strong>
+                    <small id="topScore">—</small>
+                </article>
+
+                <article class="metric">
+                    <span>Crops compared</span>
+                    <strong id="cropCount">—</strong>
+                    <small>Configured crop rules</small>
+                </article>
+            </div>
+
+            <div class="charts-grid">
+                <article class="panel">
+                    <h3>Crop match scores</h3>
+                    <canvas id="cropChart"></canvas>
+                </article>
+
+                <article class="panel">
+                    <h3>Nutrient readings</h3>
+                    <canvas id="nutrientChart"></canvas>
+                </article>
+            </div>
+
+            <article class="panel">
+                <h3>Ranked crop recommendations</h3>
+                <div id="cropList"></div>
+                <p class="muted">
+                    Scores indicate agreement with configured rules,
+                    not the probability of crop success.
+                </p>
+            </article>
+
+            <article class="panel">
+                <h3>Soil health and fertilizer guidance</h3>
+                <ul id="guidance"></ul>
+            </article>
+
+            <p class="disclaimer">
+                Educational prototype. Confirm crop and fertilizer
+                decisions with local agricultural experts and
+                laboratory soil-test recommendations.
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        SoilSense · Smarter decisions for farming
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
